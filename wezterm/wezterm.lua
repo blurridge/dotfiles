@@ -8,9 +8,10 @@ local mux = wezterm.mux
 -- This is where you actually apply your config choices
 
 -- For example, changing the color scheme:
-config.color_scheme = "rose-pine-moon"
+config.color_scheme = "PaleNightHC"
 config.font = wezterm.font("Fira Code Semibold")
 config.window_background_opacity = 0.9
+config.macos_window_background_blur = 20
 config.initial_cols = 150
 config.initial_rows = 80
 config.window_close_confirmation = "NeverPrompt"
