@@ -4,6 +4,13 @@ local wezterm = require("wezterm")
 -- This will hold the configuration.
 local config = wezterm.config_builder()
 local mux = wezterm.mux
+local is_linux = function()
+	return wezterm.target_triple:find("linux") ~= nil
+end
+
+local is_darwin = function()
+	return wezterm.target_triple:find("darwin") ~= nil
+end
 
 -- This is where you actually apply your config choices
 
@@ -17,7 +24,7 @@ config.scrollback_lines = 3500
 config.initial_cols = 150
 config.initial_rows = 80
 config.window_close_confirmation = "NeverPrompt"
-config.window_decorations = "INTEGRATED_BUTTONS|NONE"
+config.window_decorations = is_linux() and "INTEGRATED_BUTTONS|NONE" or "INTEGRATED_BUTTONS"
 config.keys = {
 	{
 		key = "w",
