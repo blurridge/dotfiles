@@ -17,6 +17,7 @@ config.scrollback_lines = 3500
 config.initial_cols = 150
 config.initial_rows = 80
 config.window_close_confirmation = "NeverPrompt"
+config.window_decorations = "INTEGRATED_BUTTONS|NONE"
 config.keys = {
 	{
 		key = "w",
@@ -27,7 +28,6 @@ config.keys = {
 -- and finally, return the configuration to wezterm
 wezterm.on("gui-startup", function(window)
 	local tab, pane, window = mux.spawn_window(cmd or {})
-	local gui_window = window:gui_window()
-	gui_window:perform_action(wezterm.action.ToggleFullScreen, pane)
+	window:gui_window():maximize()
 end)
 return config
