@@ -15,7 +15,7 @@ end
 -- This is where you actually apply your config choices
 
 -- For example, changing the color scheme:
-config.color_scheme = "PaleNightHC"
+config.color_scheme = "Dracula"
 config.font = wezterm.font("JetBrains Mono", { weight = "Bold" })
 config.window_background_opacity = 0.9
 config.macos_window_background_blur = 20

@@ -37,7 +37,7 @@ require('lazy').setup({
 
   require 'kickstart/plugins/cmp',
 
-  require 'kickstart/plugins/palenight',
+  require 'kickstart/plugins/theme',
 
   require 'kickstart/plugins/todo-comments',
 
