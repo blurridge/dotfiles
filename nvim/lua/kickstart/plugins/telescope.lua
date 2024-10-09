@@ -62,6 +62,33 @@ return {
         --   },
         -- },
         -- pickers = {}
+        defaults = {
+          preview = {
+            mime_hook = function(filepath, bufnr, opts)
+              local is_image = function(filepath)
+                local image_extensions = { 'png', 'jpg', 'jpeg', 'webp', 'gif' } -- Supported image formats
+                local split_path = vim.split(filepath:lower(), '.', { plain = true })
+                local extension = split_path[#split_path]
+                return vim.tbl_contains(image_extensions, extension)
+              end
+              if is_image(filepath) then
+                local term = vim.api.nvim_open_term(bufnr, {})
+                local function send_output(_, data, _)
+                  for _, d in ipairs(data) do
+                    vim.api.nvim_chan_send(term, d .. '\r\n')
+                  end
+                end
+                vim.fn.jobstart({
+                  'chafa',
+                  '--format=symbols',
+                  filepath, -- Terminal image viewer command
+                }, { on_stdout = send_output, stdout_buffered = true, pty = true })
+              else
+                require('telescope.previewers.utils').set_preview_message(bufnr, opts.winid, 'Binary cannot be previewed')
+              end
+            end,
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -85,6 +112,14 @@ return {
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      vim.keymap.set('n', '<leader>sm', function()
+        require('telescope.builtin').find_files {
+          prompt_title = 'Search Media Files',
+          -- Search for common image file types
+          file_ignore_patterns = {},
+          find_command = { 'rg', '--files', '--iglob', '*.{png,jpg,jpeg,webp,gif}' },
+        }
+      end, { desc = '[S]earch [M]edia Files' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
