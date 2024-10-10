@@ -56,13 +56,6 @@ local center = {
     group = '@markup.heading.3.markdown',
   },
   {
-    desc = 'Reload Session ',
-    key = 'r',
-    icon = ' ',
-    action = 'SessionLoad',
-    group = '@markup.heading.4.markdown',
-  },
-  {
     desc = 'Exit ',
     key = 'q',
     icon = ' ',
@@ -100,10 +93,10 @@ return {
       packages = { enable = false },
       project = {
         enable = true,
-        limit = 3,  -- Limit recent projects to 5
+        limit = 3, -- Limit recent projects to 5
       },
       mru = {
-        limit = 5,  -- Limit MRU (Most Recently Used) files to 5
+        limit = 5, -- Limit MRU (Most Recently Used) files to 5
       },
     },
   },
