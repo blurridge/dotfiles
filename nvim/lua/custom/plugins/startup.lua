@@ -36,6 +36,8 @@ local header = {
   '        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣿⣿⣳⡿⣞⡿⠊⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀',
   '        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠛⠛⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀',
   '',
+  '  NEOVIM v' .. version.major .. '.' .. version.minor,
+  '',
 }
 
 local center = {
@@ -71,7 +73,8 @@ local center = {
 
 local footer = {
   '',
-  'nvim version ' .. version.major .. '.' .. version.minor,
+  '    ✨ Excellence as a goal is nothing, but excellence as a habit is everything. ✨',
+  '',
 }
 
 vim.api.nvim_create_autocmd('Filetype', {
@@ -95,6 +98,13 @@ return {
       shortcut = center,
       footer = footer,
       packages = { enable = false },
+      project = {
+        enable = true,
+        limit = 3,  -- Limit recent projects to 5
+      },
+      mru = {
+        limit = 5,  -- Limit MRU (Most Recently Used) files to 5
+      },
     },
   },
 }
