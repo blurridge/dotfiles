@@ -9,4 +9,5 @@ macos-titlebar-style = hidden
 macos-option-as-alt = true
 mouse-hide-while-typing = true
 
-window-save-state = always
+window-height=4000
+window-width=4000
