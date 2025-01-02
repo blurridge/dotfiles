@@ -11,3 +11,5 @@ mouse-hide-while-typing = true
 
 window-height=4000
 window-width=4000
+
+confirm-close-surface = false
