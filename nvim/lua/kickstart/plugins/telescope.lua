@@ -94,6 +94,26 @@ return {
             require('telescope.themes').get_dropdown(),
           },
         },
+        pickers = {
+          find_files = {
+            find_command = {
+              'rg',
+              '-uu',
+              '--files',
+              '--hidden',
+              '-g',
+              '!.git/',
+              '-g',
+              '!node_modules/',
+              '-g',
+              '!tmp/',
+              '-g',
+              '!build/',
+              '-g',
+              '!.next/',
+            },
+          },
+        },
       }
 
       -- Enable Telescope extensions if they are installed
