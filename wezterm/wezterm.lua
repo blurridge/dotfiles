@@ -20,6 +20,7 @@ config.enable_scroll_bar = true
 config.scrollback_lines = 3500
 config.initial_cols = 150
 config.initial_rows = 80
+config.max_fps = 120
 config.window_close_confirmation = "NeverPrompt"
 config.window_decorations = is_linux() and "INTEGRATED_BUTTONS|NONE" or "INTEGRATED_BUTTONS"
 config.keys = {
