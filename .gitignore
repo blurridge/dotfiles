@@ -1,2 +1,9 @@
 .DS_Store
 **/.DS_Store
+
+# Ignore all directories except specific ones
+/*
+!/tmux/
+!/neovim/
+!/kitty/
+!/fastfetch/
