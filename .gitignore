@@ -4,6 +4,7 @@
 # Ignore all directories except specific ones
 /*
 !/tmux/
-!/neovim/
+!/nvim/
 !/kitty/
 !/fastfetch/
+!/.claude/
