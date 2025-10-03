@@ -33,6 +33,27 @@ All commit messages MUST follow this exact template:
 4. Ensure each commit is atomic and functional
 5. Use meaningful summaries that explain WHY, not just WHAT
 
+## Special Rules for Auto-Generated Files
+
+### API Documentation and Client Library Updates
+When changes include auto-generated files (`api-docs.json` and `packages/api-lib/src/api.ts`), these MUST be committed separately:
+
+1. **First commit**: Your actual code changes (without api-docs.json and api.ts)
+   - Example: `[Feat][Zach] Separate REM1 and REM2 ALL data in query history details`
+
+2. **Second commit**: Auto-generated files only
+   - Always use: `[Chore][Zach] Updated sources`
+
+### Process
+```bash
+# Stage only your code changes (exclude auto-generated files)
+git add apps/web/src/utils/historyUtils.ts apps/web/src/components/common/QueryHistoryContent.tsx
+git commit -m "[Feat][Zach] Your feature description"
+
+# Then stage and commit auto-generated files
+git add api-docs.json packages/api-lib/src/api.ts
+git commit -m "[Misc][Zach] Updated sources"
+
 ## What NOT to Do
 ❌ Don't combine unrelated changes in one commit
 ❌ Don't write vague summaries like "fix stuff" or "updates"
