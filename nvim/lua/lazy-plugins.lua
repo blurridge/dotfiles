@@ -50,15 +50,13 @@ require('lazy').setup({
 
   require 'custom/plugins/nvim-webdev',
 
-  require 'custom/plugins/presence',
+  require 'custom/plugins/discord-presence',
 
   require 'custom/plugins/startup',
 
   require 'custom/plugins/trouble',
 
-  require 'custom/plugins/tailwind-tools',
-
-  require 'custom/plugins/copilot',
+  require 'custom/plugins/highlight-colors',
 
   require 'custom/plugins/noice',
 

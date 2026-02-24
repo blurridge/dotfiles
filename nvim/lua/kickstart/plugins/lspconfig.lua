@@ -86,19 +86,26 @@ return {
       local capabilities = require('blink.cmp').get_lsp_capabilities()
 
       local mason_registry = require 'mason-registry'
-      local vue_language_server_path = mason_registry.get_package('vue-language-server'):get_install_path() .. '/node_modules/@vue/language-server'
+      local vue_language_server_path = nil
+      local ok, path = pcall(function()
+        return vim.fn.stdpath 'data' .. '/mason/packages/vue-language-server/node_modules/@vue/language-server'
+      end)
+      if ok and vim.fn.isdirectory(path) == 1 then
+        vue_language_server_path = path
+      end
 
       local servers = {
         pyright = {},
+        tailwindcss = {},
         ts_ls = {
           init_options = {
-            plugins = {
+            plugins = vue_language_server_path and {
               {
                 name = '@vue/typescript-plugin',
                 location = vue_language_server_path,
                 languages = { 'vue' },
               },
-            },
+            } or {},
           },
           filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
         },
