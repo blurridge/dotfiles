@@ -116,6 +116,11 @@ if [ -n "$cwd" ]; then
   branch=$(git -C "$cwd" --no-optional-locks symbolic-ref --short HEAD 2>/dev/null)
   if [ -n "$branch" ]; then
     modified=$(git -C "$cwd" --no-optional-locks status --porcelain 2>/dev/null | wc -l | tr -d ' ')
+    stat=$(git -C "$cwd" --no-optional-locks diff --shortstat HEAD 2>/dev/null)
+    insertions=$(echo "$stat" | sed -n 's/.*\([0-9]\+\) insertion.*/\1/p')
+    deletions=$(echo "$stat" | sed -n 's/.*\([0-9]\+\) deletion.*/\1/p')
+    insertions=${insertions:-0}
+    deletions=${deletions:-0}
   fi
 fi
 
@@ -184,17 +189,22 @@ footer_right_display=""
 if [ -n "$branch" ]; then
   min_dashes=3
   available=$(( INNER + 1 - ${#footer_left_plain} - min_dashes ))
-  # Format: " branch: <name><mod> " = 9 + branch_len + mod_len + 1
   mod_plain=""
   [ "$modified" -gt 0 ] && mod_plain=" ✎${modified}"
-  max_branch_len=$(( available - 9 - ${#mod_plain} - 1 ))
+  diff_plain=""
+  if [ "${insertions:-0}" -gt 0 ] || [ "${deletions:-0}" -gt 0 ]; then
+    diff_plain=" +${insertions} -${deletions}"
+  fi
+  # Format: " branch: <name><mod><diff> " = 9 + branch_len + mod_len + diff_len + 1
+  max_branch_len=$(( available - 9 - ${#mod_plain} - ${#diff_plain} - 1 ))
   branch_display="$branch"
   if [ "${#branch_display}" -gt "$max_branch_len" ] && [ "$max_branch_len" -gt 3 ]; then
     branch_display="${branch_display:0:$(( max_branch_len - 3 ))}..."
   fi
-  footer_right_plain=" branch: ${branch_display}${mod_plain} "
+  footer_right_plain=" branch: ${branch_display}${mod_plain}${diff_plain} "
   footer_right_display=" ${DIM}branch:${R} ${GREEN}${branch_display}${R}"
   [ -n "$mod_plain" ] && footer_right_display="${footer_right_display}${YELLOW}${mod_plain}${R}"
+  [ -n "$diff_plain" ] && footer_right_display="${footer_right_display} ${GREEN}+${insertions}${R} ${RED}-${deletions}${R}"
   footer_right_display="${footer_right_display} "
 fi
 
