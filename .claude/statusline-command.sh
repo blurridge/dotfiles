@@ -36,6 +36,31 @@ if [ -n "$transcript" ] && [ -f "$transcript" ]; then
   turns=$(( turns / 2 ))
 fi
 
+# Random greeting for Zach
+greetings=(
+  "Hello, Zach!"
+  "Hey there, Zach!"
+  "Good to see you, Zach!"
+  "What's up, Zach?"
+  "Greetings, Zach!"
+  "Welcome back, Zach!"
+  "Howdy, Zach!"
+  "Ahoy, Zach!"
+  "Sup, Zach!"
+  "Yo, Zach!"
+  "Nice to see you, Zach!"
+  "Ready to code, Zach?"
+)
+hour=$(date +%H)
+if [ "$hour" -lt 12 ]; then
+  greetings+=("Good morning, Zach!")
+elif [ "$hour" -lt 17 ]; then
+  greetings+=("Good afternoon, Zach!")
+else
+  greetings+=("Good evening, Zach!")
+fi
+greeting="${greetings[$((RANDOM % ${#greetings[@]}))]}"
+
 # Color-coded progress bar (10 chars)
 build_bar() {
   local pct=$1
@@ -112,8 +137,10 @@ pad_line() {
 }
 
 # Top border
-printf "${CYAN}╭─ ${BOLD}${BCYAN}claude${R}${CYAN} "
-printf '%0.s─' $(seq 1 $(( INNER - 7 )))
+top_dashes=$(( INNER - 1 - ${#greeting} ))
+[ $top_dashes -lt 1 ] && top_dashes=1
+printf "${CYAN}╭─ ${BOLD}${BCYAN}%s${R}${CYAN} " "$greeting"
+printf '%0.s─' $(seq 1 $top_dashes)
 printf "╮${R}\n"
 
 # Line 1: model (left) + context bar (right)
