@@ -5,6 +5,6 @@
   "model": "sonnet",
   "statusLine": {
     "type": "command",
-    "command": "bash /home/blurridge/.claude/statusline-command.sh"
+    "command": "bash $HOME/.claude/statusline-command.sh"
   }
 }
