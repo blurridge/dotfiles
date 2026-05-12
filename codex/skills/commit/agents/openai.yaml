@@ -1,0 +1,6 @@
+interface:
+  display_name: "Commit"
+  short_description: "Create Zach-style grouped git commits."
+  default_prompt: "$commit"
+policy:
+  allow_implicit_invocation: false

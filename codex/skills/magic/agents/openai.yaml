@@ -1,0 +1,6 @@
+interface:
+  display_name: "Magic"
+  short_description: "Improve a rough prompt and execute it."
+  default_prompt: "$magic "
+policy:
+  allow_implicit_invocation: false

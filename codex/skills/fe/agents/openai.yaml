@@ -1,0 +1,6 @@
+interface:
+  display_name: "FE"
+  short_description: "Apply frontend design workflow."
+  default_prompt: "$fe "
+policy:
+  allow_implicit_invocation: false

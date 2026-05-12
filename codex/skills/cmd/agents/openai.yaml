@@ -1,0 +1,6 @@
+interface:
+  display_name: "CMD"
+  short_description: "Improve agent guidance files."
+  default_prompt: "$cmd "
+policy:
+  allow_implicit_invocation: false

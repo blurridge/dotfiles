@@ -1,0 +1,6 @@
+interface:
+  display_name: "Accomps"
+  short_description: "Summarize today's commits."
+  default_prompt: "$accomps"
+policy:
+  allow_implicit_invocation: false
