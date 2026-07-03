@@ -12,6 +12,8 @@ return {
       local available = nil
       vim.api.nvim_create_autocmd('FileType', {
         callback = function(ev)
+          if ev.match == 'svg' then return end
+
           local lang = vim.treesitter.language.get_lang(ev.match)
           if not lang then return end
           available = available or require('nvim-treesitter').get_available()
