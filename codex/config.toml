@@ -7,6 +7,12 @@ trust_level = "trusted"
 [projects."/home/blurridge/.config"]
 trust_level = "trusted"
 
+[projects."/Users/blurridge/Documents/symph/ml-asys"]
+trust_level = "trusted"
+
+[projects."/Users/blurridge/Documents/symph/ml-services"]
+trust_level = "trusted"
+
 [tui]
 status_line_use_colors = true
 status_line = ["model-with-reasoning", "context-used", "used-tokens", "total-input-tokens", "total-output-tokens", "current-dir", "git-branch", "branch-changes", "five-hour-limit", "weekly-limit", "fast-mode"]

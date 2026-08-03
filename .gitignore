@@ -9,3 +9,5 @@
 !/fastfetch/
 !/.claude/
 !/codex/
+!/.agents/
+!/.agents/skills
