@@ -51,11 +51,11 @@ Examples:
 
 ## Commit Scope
 
-Determine the scope from the conversation before staging anything. Do not ask the user to select files.
+Determine the scope from the conversation before staging anything. Do not ask the user to select files or confirm before committing; stage and commit the determined scope immediately.
 
 - In a fresh conversation with no prior implementation context, commit every working-tree change: staged, unstaged, untracked, renamed, and deleted files. Use `git add -A`.
 - In an existing conversation, commit only files created, modified, renamed, or deleted by the agent during that conversation. Do not include pre-existing or user-made changes, even if they are already staged.
-- If a file's origin cannot be determined reliably in an existing conversation, ask the user whether to include it before staging or committing it.
+- If a file's origin cannot be determined reliably in an existing conversation, exclude it rather than asking the user whether to include it.
 - For every group, use `git commit --only -- <paths>` so unrelated staged changes are excluded. In a fresh conversation, first stage the complete working tree with `git add -A`.
 
 ## Grouping Strategy
@@ -85,6 +85,7 @@ Always separate:
 5. In a fresh conversation, stage all changes with `git add -A`. In an existing conversation, stage each group explicitly with `git add <paths>`.
 6. Commit each group with `git commit --only -m "<one-line message>" -- <paths>`.
 7. Do not stage or commit files outside the determined scope.
+8. Do not run tests, typechecking, linting, builds, or other pre-commit validation commands. Assume the user has already completed validation; Git hooks enforce any required checks.
 
 ## Common Mistakes
 
@@ -93,3 +94,5 @@ Always separate:
 - Using vague messages like "fix stuff", "updates", or "changes".
 - Mentioning AI, Claude, Codex, OpenAI, or generated tooling.
 - Reusing the same message for distinct commits.
+- Asking for confirmation before staging or committing.
+- Running tests, typechecking, linting, or builds before committing.

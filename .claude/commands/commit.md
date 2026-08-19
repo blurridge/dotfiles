@@ -69,11 +69,11 @@ THE COMMIT MESSAGE IS EXACTLY ONE LINE. NOTHING BEFORE IT. NOTHING AFTER IT.
 </correct_commit_format>
 
 <commit_scope>
-Determine the scope from the conversation before staging anything. Do not ask the user to select files.
+Determine the scope from the conversation before staging anything. Do not ask the user to select files or confirm before committing; stage and commit the determined scope immediately.
 
 - In a fresh conversation with no prior implementation context, commit every working-tree change: staged, unstaged, untracked, renamed, and deleted files. Use `git add -A`.
 - In an existing conversation, commit only files created, modified, renamed, or deleted by the agent during that conversation. Do not include pre-existing or user-made changes, even if they are already staged.
-- If a file's origin cannot be determined reliably in an existing conversation, ask the user whether to include it before staging or committing it.
+- If a file's origin cannot be determined reliably in an existing conversation, exclude it rather than asking the user whether to include it.
 - For every group, use `git commit --only -- <paths>` so unrelated staged changes are excluded. In a fresh conversation, first stage the complete working tree with `git add -A`.
 </commit_scope>
 
@@ -149,4 +149,6 @@ git commit --only -m "[Misc][Zach] Updated sources" -- api-docs.json packages/ap
 - Mentioning AI/Claude/generation tools
 - Using same message for different commits
 - Generic messages like "update files"
+- Asking for confirmation before staging or committing
+- Running tests, typechecking, linting, builds, or other pre-commit validation commands. Assume the user has already completed validation; Git hooks enforce any required checks.
 </common_mistakes>
