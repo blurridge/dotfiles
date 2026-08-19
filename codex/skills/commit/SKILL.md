@@ -49,6 +49,15 @@ Examples:
 [Docs][Zach] Update API documentation for payment endpoints
 ```
 
+## Commit Scope
+
+Determine the scope from the conversation before staging anything. Do not ask the user to select files.
+
+- In a fresh conversation with no prior implementation context, commit every working-tree change: staged, unstaged, untracked, renamed, and deleted files. Use `git add -A`.
+- In an existing conversation, commit only files created, modified, renamed, or deleted by the agent during that conversation. Do not include pre-existing or user-made changes, even if they are already staged.
+- If a file's origin cannot be determined reliably in an existing conversation, ask the user whether to include it before staging or committing it.
+- For every group, use `git commit --only -- <paths>` so unrelated staged changes are excluded. In a fresh conversation, first stage the complete working tree with `git add -A`.
+
 ## Grouping Strategy
 
 Dependency-based grouping rules:
@@ -70,11 +79,12 @@ Always separate:
 ## Workflow
 
 1. Inspect the working tree with `git status --short`.
-2. Review diffs with `git diff` and, when needed, read surrounding file context.
-3. Group changed files according to the rules above.
-4. Stage each group explicitly with `git add <paths>`.
-5. Commit each group with `git commit -m "<one-line message>"`.
-6. Do not use broad staging unless every changed file belongs in the same commit.
+2. Determine the commit scope using the rules above.
+3. Review scoped diffs with `git diff` and, when needed, read surrounding file context.
+4. Group scoped files according to the rules above.
+5. In a fresh conversation, stage all changes with `git add -A`. In an existing conversation, stage each group explicitly with `git add <paths>`.
+6. Commit each group with `git commit --only -m "<one-line message>" -- <paths>`.
+7. Do not stage or commit files outside the determined scope.
 
 ## Common Mistakes
 
