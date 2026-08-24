@@ -11,5 +11,6 @@
     "claude-md-management@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true
   },
-  "skipAutoPermissionPrompt": true
+  "skipAutoPermissionPrompt": true,
+  "hooks": {"SessionStart":[{"matcher":"*","hooks":[{"type":"command","command":"bash '/home/blurridge/.claude/hooks/herdr-agent-state.sh' session","timeout":10}]}]}
 }
