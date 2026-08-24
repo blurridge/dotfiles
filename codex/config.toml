@@ -19,3 +19,6 @@ status_line = ["model-with-reasoning", "context-used", "used-tokens", "total-inp
 
 [tui.model_availability_nux]
 "gpt-5.5" = 4
+
+[features]
+hooks = true
