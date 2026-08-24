@@ -53,10 +53,10 @@ Examples:
 
 Determine the scope from the conversation before staging anything. Do not ask the user to select files or confirm before committing; stage and commit the determined scope immediately.
 
-- In a fresh conversation with no prior implementation context, commit every working-tree change: staged, unstaged, untracked, renamed, and deleted files. Use `git add -A`.
-- In an existing conversation, commit only files created, modified, renamed, or deleted by the agent during that conversation. Do not include pre-existing or user-made changes, even if they are already staged.
+- In a fresh conversation with no prior implementation context, commit every working-tree change: staged, unstaged, untracked, renamed, and deleted files. Stage each dependency group explicitly.
+- In an existing conversation, stage only files created, modified, renamed, or deleted by the agent during that conversation. Do not newly stage pre-existing or user-made changes.
 - If a file's origin cannot be determined reliably in an existing conversation, exclude it rather than asking the user whether to include it.
-- For every group, use `git commit --only -- <paths>` so unrelated staged changes are excluded. In a fresh conversation, first stage the complete working tree with `git add -A`.
+- Already-staged changes are intentionally included in the next commit. Do not unstage, restore, or otherwise alter them.
 
 ## Grouping Strategy
 
@@ -82,10 +82,11 @@ Always separate:
 2. Determine the commit scope using the rules above.
 3. Review scoped diffs with `git diff` and, when needed, read surrounding file context.
 4. Group scoped files according to the rules above.
-5. In a fresh conversation, stage all changes with `git add -A`. In an existing conversation, stage each group explicitly with `git add <paths>`.
-6. Commit each group with `git commit --only -m "<one-line message>" -- <paths>`.
-7. Do not stage or commit files outside the determined scope.
-8. Do not run tests, typechecking, linting, builds, or other pre-commit validation commands. Assume the user has already completed validation; Git hooks enforce any required checks.
+5. Stage each group explicitly with `git add -- <paths>`.
+6. Commit each group with `git commit -m "<one-line message>"` without path arguments or `--only`.
+7. After each commit, inspect `git status --short`. Include hook-generated files in an appropriate later group, committing generated files last.
+8. Do not stage files outside the determined scope. Already-staged changes may be committed with the current group.
+9. Do not run tests, typechecking, linting, builds, or other pre-commit validation commands. Assume the user has already completed validation; Git hooks enforce any required checks.
 
 ## Common Mistakes
 

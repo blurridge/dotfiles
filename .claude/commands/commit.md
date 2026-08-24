@@ -71,10 +71,11 @@ THE COMMIT MESSAGE IS EXACTLY ONE LINE. NOTHING BEFORE IT. NOTHING AFTER IT.
 <commit_scope>
 Determine the scope from the conversation before staging anything. Do not ask the user to select files or confirm before committing; stage and commit the determined scope immediately.
 
-- In a fresh conversation with no prior implementation context, commit every working-tree change: staged, unstaged, untracked, renamed, and deleted files. Use `git add -A`.
-- In an existing conversation, commit only files created, modified, renamed, or deleted by the agent during that conversation. Do not include pre-existing or user-made changes, even if they are already staged.
+- In a fresh conversation with no prior implementation context, commit every working-tree change: staged, unstaged, untracked, renamed, and deleted files. Stage each dependency group explicitly.
+- In an existing conversation, stage only files created, modified, renamed, or deleted by the agent during that conversation. Do not newly stage pre-existing or user-made changes.
 - If a file's origin cannot be determined reliably in an existing conversation, exclude it rather than asking the user whether to include it.
-- For every group, use `git commit --only -- <paths>` so unrelated staged changes are excluded. In a fresh conversation, first stage the complete working tree with `git add -A`.
+- Already-staged changes are intentionally included in the next commit. Do not unstage, restore, or otherwise alter them.
+- After each commit, inspect `git status --short`. Include hook-generated files in an appropriate later group, committing generated files last.
 </commit_scope>
 
 <grouping_strategy>
@@ -99,45 +100,45 @@ Scenario 1: Single Consumer
 # payment.service.ts imports PAYMENT_STATUS (only user)
 # payment.constants.ts defines PAYMENT_STATUS
 git add src/services/payment.service.ts src/constants/payment.constants.ts
-git commit --only -m "[Feat][Zach] Add payment processing service with status constants" -- src/services/payment.service.ts src/constants/payment.constants.ts
+git commit -m "[Feat][Zach] Add payment processing service with status constants"
 
 Scenario 2: Multiple Consumers (Pure Implementation)
 # All 3 files ONLY add UserRole usage, no other changes
 git add src/enums/user.enums.ts src/guards/role.guard.ts src/middleware/auth.middleware.ts src/services/user.service.ts
-git commit --only -m "[Feat][Zach] Implement user role enum across guards, middleware, and service" -- src/enums/user.enums.ts src/guards/role.guard.ts src/middleware/auth.middleware.ts src/services/user.service.ts
+git commit -m "[Feat][Zach] Implement user role enum across guards, middleware, and service"
 
 Scenario 3: Multiple Consumers (Mixed Changes)
 # service.ts has UserRole + other changes
 git add src/enums/user.enums.ts
-git commit --only -m "[Feat][Zach] Define user role enum" -- src/enums/user.enums.ts
+git commit -m "[Feat][Zach] Define user role enum"
 
 git add src/guards/role.guard.ts src/middleware/auth.middleware.ts
-git commit --only -m "[Feat][Zach] Implement user role enum in guards and middleware" -- src/guards/role.guard.ts src/middleware/auth.middleware.ts
+git commit -m "[Feat][Zach] Implement user role enum in guards and middleware"
 
 git add src/services/user.service.ts
-git commit --only -m "[Feat][Zach] Add user role enum support and bulk update feature" -- src/services/user.service.ts
+git commit -m "[Feat][Zach] Add user role enum support and bulk update feature"
 </examples>
 
 <workflow_example>
 # Shared type (used by 3 files) - commit first
 git add src/types/payment.types.ts
-git commit --only -m "[Feat][Zach] Define payment data transfer types" -- src/types/payment.types.ts
+git commit -m "[Feat][Zach] Define payment data transfer types"
 
 # Service + its exclusive constants
 git add src/services/payment.service.ts src/constants/payment-errors.constants.ts
-git commit --only -m "[Feat][Zach] Implement payment processing service with error messages" -- src/services/payment.service.ts src/constants/payment-errors.constants.ts
+git commit -m "[Feat][Zach] Implement payment processing service with error messages"
 
 # Controller (uses shared dependencies)
 git add src/controllers/payment.controller.ts
-git commit --only -m "[Feat][Zach] Create payment endpoint controller" -- src/controllers/payment.controller.ts
+git commit -m "[Feat][Zach] Create payment endpoint controller"
 
 # Tests always separate
 git add src/tests/payment.service.test.ts
-git commit --only -m "[Feat][Zach] Add unit tests for payment service" -- src/tests/payment.service.test.ts
+git commit -m "[Feat][Zach] Add unit tests for payment service"
 
 # Auto-generated files last
 git add api-docs.json packages/api-lib/src/api.ts
-git commit --only -m "[Misc][Zach] Updated sources" -- api-docs.json packages/api-lib/src/api.ts
+git commit -m "[Misc][Zach] Updated sources"
 </workflow_example>
 
 <common_mistakes>
